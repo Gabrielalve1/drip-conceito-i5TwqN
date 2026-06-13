@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+aa<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -54,7 +54,7 @@
         .intro-photo {
             position: absolute;
             inset: 0;
-            background: url('assets/imagem/intro.png') center center / cover no-repeat;
+background: url('assets/intro.png') center center / cover no-repeat;
             filter: grayscale(100%) contrast(1.05);
             opacity: 0;
             transform: scale(1.12);
@@ -357,7 +357,7 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background-image: url('assets/imagem/hero.png');
+            background-image: url('assets/hero.png');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center center;
@@ -370,7 +370,7 @@
         .hero-reveal {
             position: absolute;
             inset: 0;
-            background-image: url('assets/imagem/hero.png');
+background-image: url('assets/hero.png');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center center;
@@ -1469,7 +1469,7 @@
                 card.innerHTML = `
                     <div class="p-img-wrap">
                         ${p.badge ? `<span class="p-badge">${p.badge}</span>` : ''}
-                        <img src="assets/imagem/${p.img}" alt="${p.nome}" loading="lazy">
+<img src="assets/${p.img}" alt="${p.nome}" loading="lazy">
                         <div class="p-overlay">
                             <button type="button" class="p-overlay-btn" onclick="pedirProduto(this)">Pedir via WhatsApp</button>
                         </div>
