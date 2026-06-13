@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRIP CONCEITO | São Carlos — Streetwear Preto & Branco</title>
+    <meta name="description" content="Drip Conceito — Streetwear autêntico em São Carlos. Preto no branco, conceito nas ruas.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --black: #000000;
+            --black-soft: #0a0a0a;
+            --card: #111111;
+            --border: #1e1e1e;
+            --border-light: #2a2a2a;
+            --white: #ffffff;
+            --gray: #888888;
+            --gray-light: #cccccc;
+            --accent: #ffffff;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        body.intro-lock { overflow: hidden; height: 100vh; }
+
+        /* ===== INTRO 3D ===== */
+        #intro {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 1000px;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .intro-photo {
+            position: absolute;
+            inset: 0;
+            background: url('assets/imagem/intro.png') center center / cover no-repeat;
+            filter: grayscale(100%) contrast(1.05);
+            opacity: 0;
+            transform: scale(1.12);
+            animation: introPhotoIn 2.6s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        .intro-photo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.55) 100%),
+                linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.55) 100%);
+        }
+        @keyframes introPhotoIn {
+            0%   { opacity: 0; transform: scale(1.18); }
+            60%  { opacity: 1; }
+            100% { opacity: 1; transform: scale(1.04); }
+        }
+        #intro.done {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .intro-grid {
+            position: absolute;
+            inset: -50%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(70deg) translateZ(-100px);
+            transform-origin: center;
+            animation: gridMove 3s linear infinite;
+            opacity: 0.5;
+        }
+        @keyframes gridMove {
+            from { background-position: 0 0; }
+            to   { background-position: 0 60px; }
+        }
+
+        .intro-glow {
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.16) 0%, transparent 65%);
+            border-radius: 50%;
+            animation: glowPulse 2s ease-in-out infinite;
+            filter: blur(20px);
+        }
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(0.85); opacity: 0.5; }
+            50%       { transform: scale(1.15); opacity: 1; }
+        }
+
+        .intro-stage {
+            position: absolute;
+            bottom: 8%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 5;
+        }
+        @keyframes stageSpin {
+            0%   { transform: rotateY(-90deg) rotateX(25deg) scale(0.3); opacity: 0; }
+            45%  { transform: rotateY(15deg) rotateX(-8deg) scale(1.08); opacity: 1; }
+            70%  { transform: rotateY(-6deg) rotateX(3deg) scale(0.98); }
+            100% { transform: rotateY(0deg) rotateX(0deg) scale(1); opacity: 1; }
+        }
+
+        .intro-word {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(54px, 14vw, 180px);
+            line-height: 0.85;
+            letter-spacing: 4px;
+            color: #fff;
+            transform-style: preserve-3d;
+        }
+        .intro-word .l1 { color: #fff; }
+        .intro-word .l2 {
+            color: transparent;
+            -webkit-text-stroke: 2px #fff;
+            text-stroke: 2px #fff;
+        }
+        .intro-char {
+            display: inline-block;
+            transform-style: preserve-3d;
+            opacity: 0;
+            animation: charDrop 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+            text-shadow: 0 0 40px rgba(255,255,255,0.4);
+        }
+        @keyframes charDrop {
+            0%   { opacity: 0; transform: translateY(-120px) translateZ(200px) rotateX(90deg); }
+            100% { opacity: 1; transform: translateY(0) translateZ(0) rotateX(0); }
+        }
+
+        .intro-stage.glitch { animation: stageSpin 2.6s cubic-bezier(0.16,1,0.3,1) forwards, glitchShake 0.18s steps(2) 2.3s 3; }
+        @keyframes glitchShake {
+            0% { transform: translate(0,0); }
+            25% { transform: translate(-4px, 2px) skewX(3deg); }
+            50% { transform: translate(4px, -2px) skewX(-3deg); }
+            75% { transform: translate(-2px, 1px); }
+            100% { transform: translate(0,0); }
+        }
+
+        .intro-tag {
+            margin: 0;
+            font-size: clamp(10px, 2.5vw, 14px);
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+            opacity: 0;
+            animation: fadeIn 0.8s ease 1.8s forwards;
+        }
+
+        .intro-scan {
+            position: absolute;
+            left: 0; width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
+            box-shadow: 0 0 20px rgba(255,255,255,0.6);
+            animation: scanLine 2.2s ease-in-out infinite;
+        }
+        @keyframes scanLine {
+            0%   { top: 0%; opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .intro-bar {
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 3px;
+            width: 0%;
+            background: var(--white);
+            box-shadow: 0 0 12px var(--white);
+            animation: introBar 2.6s ease forwards;
+        }
+        @keyframes introBar {
+            from { width: 0%; }
+            to   { width: 100%; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .intro-stage, .intro-char, .intro-bar { animation-duration: 0.6s !important; }
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Bebas Neue', sans-serif;
+            text-transform: uppercase;
+            line-height: 0.92;
+            letter-spacing: 1px;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+        ul { list-style: none; }
+        button { cursor: pointer; font-family: inherit; transition: all 0.3s ease; }
+        img { display: block; max-width: 100%; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes marqueeScroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            50%       { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1000;
+            padding: 0 5%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid transparent;
+            transition: all 0.4s ease;
+        }
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(20px);
+            border-bottom-color: var(--border);
+        }
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px;
+            letter-spacing: 3px;
+            color: var(--white);
+            line-height: 1;
+        }
+        .nav-logo span { color: var(--gray); }
+        .nav-center { display: flex; gap: 40px; }
+        .nav-center a {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gray);
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-center a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: var(--white);
+            transition: width 0.3s ease;
+        }
+        .nav-center a:hover { color: var(--white); }
+        .nav-center a:hover::after { width: 100%; }
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--white);
+            padding: 10px 22px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--white);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-cta:hover { background: var(--white); color: var(--black); }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 22px;
+        }
+
+        /* ===== MOBILE NAV ===== */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 72px; left: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 30px 5%;
+            z-index: 999;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .mobile-nav.open { display: flex; }
+        .mobile-nav a {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gray);
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .mobile-nav a:hover { color: var(--white); }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+            padding-bottom: 80px;
+            background: #000;
+        }
+        /* base image layer */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('assets/imagem/hero.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-color: #000;
+            transform: scale(1.02);
+            transition: transform 0.1s linear;
+            z-index: 0;
+        }
+        /* spotlight reveal layer (brighter/colored version of same image revealed by cursor) */
+        .hero-reveal {
+            position: absolute;
+            inset: 0;
+            background-image: url('assets/imagem/hero.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            filter: brightness(1.35) contrast(1.15) saturate(1.2);
+            z-index: 1;
+            pointer-events: none;
+            -webkit-mask-image: radial-gradient(circle 220px at -999px -999px, #000 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.35) 72%, transparent 100%);
+            mask-image: radial-gradient(circle 220px at -999px -999px, #000 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.35) 72%, transparent 100%);
+            transition: -webkit-mask-position 0.08s linear, mask-position 0.08s linear;
+        }
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.45) 0%,
+                rgba(0,0,0,0) 30%,
+                rgba(0,0,0,0) 60%,
+                rgba(0,0,0,0.85) 90%,
+                rgba(0,0,0,1) 100%
+            );
+            z-index: 2;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            width: 100%;
+            padding: 0 5%;
+            animation: fadeUp 1s ease 0.3s both;
+        }
+        .hero-hint {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            color: var(--black);
+            padding: 16px 36px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: var(--gray-light);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255,255,255,0.15);
+        }
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--white);
+            padding: 16px 36px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-ghost:hover {
+            border-color: var(--white);
+            background: rgba(255,255,255,0.05);
+        }
+        .hero-scroll {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeIn 2s ease 1.5s both;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, var(--gray));
+            animation: fadeUp 1s ease infinite alternate;
+        }
+
+        /* ===== MARQUEE ===== */
+        .marquee-wrap {
+            background: var(--white);
+            overflow: hidden;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .marquee-track {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: marqueeScroll 20s linear infinite;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+        .marquee-item {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: var(--black);
+            padding: 0 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .marquee-dot {
+            width: 5px; height: 5px;
+            background: var(--black);
+            border-radius: 50%;
+            opacity: 0.4;
+            flex-shrink: 0;
+        }
+
+        /* ===== SECTION ===== */
+        .section {
+            padding: 100px 5%;
+            border-top: 1px solid var(--border);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 60px;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gray);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-label::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--gray);
+        }
+        .section-title {
+            font-size: clamp(50px, 7vw, 90px);
+            line-height: 0.9;
+        }
+
+        /* ===== FILTERS ===== */
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--gray);
+            padding: 10px 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.25s ease;
+        }
+        .filter-btn:hover { border-color: var(--white); color: var(--white); }
+        .filter-btn.active {
+            background: var(--white);
+            border-color: var(--white);
+            color: var(--black);
+        }
+
+        /* ===== GRID COUNT + SEARCH ===== */
+        .grid-count {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        .search-wrap {
+            position: relative;
+            max-width: 420px;
+            margin-bottom: 30px;
+        }
+        .search-input {
+            width: 100%;
+            background: var(--black-soft);
+            border: 1px solid var(--border-light);
+            color: var(--white);
+            padding: 14px 44px 14px 18px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            letter-spacing: 1px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .search-input::placeholder { color: var(--gray); letter-spacing: 1px; }
+        .search-input:focus { border-color: var(--white); }
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 20px;
+            pointer-events: none;
+        }
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: var(--black-soft);
+        }
+
+        /* ===== PRODUCTS GRID ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+        }
+        @media (max-width: 1200px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 900px)  { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 500px)  { .products-grid { grid-template-columns: 1fr; } }
+
+        .product-card {
+            background: var(--black-soft);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+        .product-card:hover { background: var(--card); }
+        .p-img-wrap {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: #fff;
+        }
+        .p-img-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: grayscale(10%);
+        }
+        .product-card:hover .p-img-wrap img {
+            transform: scale(1.07);
+            filter: grayscale(0%);
+        }
+        .p-badge {
+            position: absolute;
+            top: 15px; left: 15px;
+            background: var(--black);
+            color: var(--white);
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 4px 10px;
+            z-index: 2;
+        }
+        .p-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 3;
+        }
+        .product-card:hover .p-overlay { opacity: 1; }
+        .p-overlay-btn {
+            background: var(--white);
+            color: var(--black);
+            border: none;
+            padding: 14px 30px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transform: translateY(10px);
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover .p-overlay-btn { transform: translateY(0); }
+        .p-info {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .p-brand {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray);
+            margin-bottom: 6px;
+        }
+        .p-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .p-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+        }
+        .p-price { font-size: 17px; font-weight: 700; letter-spacing: -0.5px; }
+        .p-link {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        .p-link:hover { color: var(--white); }
+        .p-link::after { content: '→'; transition: transform 0.3s ease; }
+        .p-link:hover::after { transform: translateX(4px); }
+
+        /* ===== BRANDS ===== */
+        .brands-section {
+            padding: 80px 5%;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .brands-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gray);
+            margin-bottom: 40px;
+        }
+        .brands-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .brand-item {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 3px;
+            color: var(--border-light);
+            transition: color 0.3s ease;
+        }
+        .brand-item:hover { color: var(--white); }
+
+        /* ===== STATEMENT ===== */
+        .statement-section {
+            padding: 120px 5%;
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .statement-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gray);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .statement-tag::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--gray);
+        }
+        .statement-title {
+            font-size: clamp(50px, 6vw, 80px);
+            line-height: 0.9;
+            margin-bottom: 30px;
+        }
+        .statement-text {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--gray-light);
+            line-height: 1.9;
+            max-width: 420px;
+        }
+        .statement-right {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+        }
+        .stat-box {
+            background: var(--black-soft);
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .stat-box-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 60px;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .stat-box-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray);
+        }
+
+        /* ===== LOCATION ===== */
+        .location-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-top: 1px solid var(--border);
+            min-height: 550px;
+        }
+        .loc-info {
+            padding: 80px 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--black-soft);
+        }
+        .loc-title { font-size: clamp(40px, 5vw, 60px); margin-bottom: 50px; }
+        .info-block { margin-bottom: 32px; }
+        .info-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+        .info-value {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--gray-light);
+            line-height: 1.8;
+        }
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: var(--white);
+            padding: 16px 28px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            width: fit-content;
+        }
+        .btn-whatsapp:hover {
+            background: #1ebe5a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37,211,102,0.3);
+        }
+        .loc-map { background: var(--card); }
+        .loc-map iframe {
+            width: 100%; height: 100%;
+            min-height: 500px;
+            border: none;
+            filter: grayscale(100%) invert(92%) contrast(85%);
+            display: block;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--black-soft);
+            border-top: 1px solid var(--border);
+            padding: 80px 5% 40px;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+        }
+        .footer-brand .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 40px;
+            letter-spacing: 3px;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+        .footer-brand .footer-logo span { color: var(--gray); }
+        .footer-brand p {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--gray);
+            line-height: 1.8;
+            max-width: 260px;
+            margin-bottom: 24px;
+        }
+        .footer-socials { display: flex; gap: 12px; }
+        .social-btn {
+            width: 36px; height: 36px;
+            border: 1px solid var(--border-light);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+            color: var(--gray);
+            transition: all 0.3s ease;
+        }
+        .social-btn:hover {
+            border-color: var(--white);
+            color: var(--white);
+            background: rgba(255,255,255,0.05);
+        }
+        .footer-col h5 {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 24px;
+        }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--gray);
+            transition: color 0.3s ease;
+        }
+        .footer-col ul li a:hover { color: var(--white); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-bottom p { font-size: 12px; color: var(--gray); }
+
+        /* ===== WHATSAPP FLOAT ===== */
+        .wpp-float {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            width: 58px; height: 58px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 990;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+            animation: pulse 2.5s infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .wpp-float:hover {
+            transform: scale(1.1);
+            animation: none;
+            box-shadow: 0 8px 40px rgba(37,211,102,0.5);
+        }
+        .wpp-float svg { width: 28px; height: 28px; fill: white; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .statement-section { grid-template-columns: 1fr; gap: 60px; }
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            nav { height: 60px; padding: 0 5%; }
+            .nav-center { display: none; }
+            .nav-cta { display: none; }
+            .menu-toggle { display: block; }
+            .hero { min-height: 100svh; padding-bottom: 50px; }
+            /* mobile = desktop: mesmo hero e mesmo spotlight */
+            /* intro: garante que o texto da foto apareca inteiro no mobile */
+            .intro-photo { background-size: contain; background-color: #000; }
+            .hero-gradient {
+                background: linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,0.35) 0%,
+                    rgba(0,0,0,0) 55%,
+                    rgba(0,0,0,0.85) 88%,
+                    rgba(0,0,0,1) 100%
+                );
+            }
+            .hero-actions { flex-direction: column; align-items: center; gap: 12px; }
+            .btn-primary, .btn-ghost { width: 280px; justify-content: center; }
+            .section { padding: 70px 5%; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .location-section { grid-template-columns: 1fr; }
+            .loc-map { order: -1; }
+            .loc-map iframe { min-height: 300px; }
+            .footer-top { grid-template-columns: 1fr; gap: 40px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .statement-right { grid-template-columns: 1fr 1fr; }
+            .brands-row { gap: 30px; }
+        }
+        @media (max-width: 480px) {
+            .section-title { font-size: 44px; }
+            .statement-right { grid-template-columns: 1fr 1fr; }
+            .stat-box { padding: 28px 16px; }
+            .stat-box-num { font-size: 44px; }
+        }
+    </style>
+</head>
+<body class="intro-lock">
+
+    <!-- INTRO -->
+    <div id="intro">
+        <div class="intro-photo"></div>
+        <div class="intro-scan"></div>
+        <div class="intro-stage" id="introStage">
+            <p class="intro-tag">Streetwear · Preto no Branco</p>
+        </div>
+        <div class="intro-bar"></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+        <a href="#home" class="nav-logo">DRIP <span>CONCEITO</span></a>
+        <div class="nav-center">
+            <a href="#home">Início</a>
+            <a href="#colecao">Coleção</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#localizacao">Loja</a>
+        </div>
+        <a href="https://wa.me/5516982126529" class="nav-cta" target="_blank">Comprar Agora</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <span id="menuIcon">☰</span>
+        </button>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#home" onclick="closeMobileNav()">Início</a>
+        <a href="#colecao" onclick="closeMobileNav()">Coleção</a>
+        <a href="#sobre" onclick="closeMobileNav()">Sobre</a>
+        <a href="#localizacao" onclick="closeMobileNav()">Nossa Loja</a>
+        <a href="https://wa.me/5516982126529" target="_blank" onclick="closeMobileNav()">WhatsApp</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-reveal" id="heroReveal"></div>
+        <div class="hero-gradient"></div>
+
+        <div class="hero-content">
+            <p class="hero-hint" id="heroHint">Passe o mouse sobre a imagem</p>
+            <div class="hero-actions">
+                <a href="#colecao" class="btn-primary">Ver Coleção</a>
+                <a href="https://wa.me/5516982126529" class="btn-ghost" target="_blank">Falar no WhatsApp</a>
+            </div>
+        </div>
+
+        <div class="hero-scroll">
+            <div class="scroll-line"></div>
+            Scroll
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+        <div class="marquee-track">
+            <div class="marquee-item">DRIP CONCEITO<span class="marquee-dot"></span></div>
+            <div class="marquee-item">STREETWEAR<span class="marquee-dot"></span></div>
+            <div class="marquee-item">PRETO NO BRANCO<span class="marquee-dot"></span></div>
+            <div class="marquee-item">SÃO CARLOS<span class="marquee-dot"></span></div>
+            <div class="marquee-item">CONCEITO NAS RUAS<span class="marquee-dot"></span></div>
+            <div class="marquee-item">ORIGINAL<span class="marquee-dot"></span></div>
+            <div class="marquee-item">DRIP CONCEITO<span class="marquee-dot"></span></div>
+            <div class="marquee-item">STREETWEAR<span class="marquee-dot"></span></div>
+            <div class="marquee-item">PRETO NO BRANCO<span class="marquee-dot"></span></div>
+            <div class="marquee-item">SÃO CARLOS<span class="marquee-dot"></span></div>
+            <div class="marquee-item">CONCEITO NAS RUAS<span class="marquee-dot"></span></div>
+            <div class="marquee-item">ORIGINAL<span class="marquee-dot"></span></div>
+        </div>
+    </div>
+
+    <!-- BRANDS -->
+    <div class="brands-section reveal">
+        <p class="brands-label">Estilo que representa</p>
+        <div class="brands-row">
+            <span class="brand-item">Oversized</span>
+            <span class="brand-item">Graphic</span>
+            <span class="brand-item">Techwear</span>
+            <span class="brand-item">Cargo</span>
+            <span class="brand-item">Urban</span>
+            <span class="brand-item">Y2K</span>
+        </div>
+    </div>
+
+    <!-- COLEÇÃO -->
+    <section class="section" id="colecao">
+        <div class="section-header reveal">
+            <div>
+                <p class="section-label">Catálogo Completo</p>
+                <h2 class="section-title">TODAS<br>AS PEÇAS</h2>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all', this)">Todos</button>
+                <button class="filter-btn" onclick="filterProducts('top', this)">Tops</button>
+                <button class="filter-btn" onclick="filterProducts('bottom', this)">Calças</button>
+                <button class="filter-btn" onclick="filterProducts('acc', this)">Acessórios</button>
+            </div>
+        </div>
+
+        <p class="grid-count reveal" id="gridCount"></p>
+        <div class="search-wrap reveal">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar peça..." oninput="searchProducts(this.value)">
+            <span class="search-icon">⌕</span>
+        </div>
+
+        <div class="products-grid" id="productsGrid"></div>
+
+        <div style="text-align:center; margin-top:50px;" class="reveal" id="loadMoreWrap">
+            <button class="btn-ghost" onclick="loadMore()" style="display:inline-flex; border:1px solid var(--white);">
+                Carregar mais peças
+            </button>
+        </div>
+
+        <div style="text-align:center; margin-top:50px;" class="reveal">
+            <a href="https://wa.me/5516982126529?text=Ol%C3%A1!%20Quero%20ver%20mais%20produtos%20da%20Drip%20Conceito"
+               class="btn-ghost" target="_blank" style="display:inline-flex;">
+                Ver Mais no WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="statement-section reveal" id="sobre">
+        <div class="statement-left">
+            <p class="statement-tag">Nossa História</p>
+            <h2 class="statement-title">CONCEITO<br>NAS<br>RUAS</h2>
+            <p class="statement-text">
+                A Drip Conceito nasceu em São Carlos com uma ideia clara: streetwear de verdade, no preto e no branco. Peças com atitude, conceito e identidade pra quem veste estilo sem precisar de cor pra se destacar.
+            </p>
+        </div>
+        <div class="statement-right">
+            <div class="stat-box">
+                <div class="stat-box-num">+10K</div>
+                <div class="stat-box-label">Clientes vestidos</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-num">100%</div>
+                <div class="stat-box-label">Conceito autêntico</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-num">P&B</div>
+                <div class="stat-box-label">Preto no branco</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-num">SP</div>
+                <div class="stat-box-label">São Carlos, Brasil</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCALIZAÇÃO -->
+    <section class="location-section" id="localizacao">
+        <div class="loc-info reveal">
+            <h2 class="loc-title">NOSSA<br>LOJA</h2>
+            <div class="info-block">
+                <p class="info-label">Endereço</p>
+                <p class="info-value">Av. Regit Arab, 705<br>Cidade Aracy — São Carlos, SP<br>13573-050</p>
+            </div>
+            <div class="info-block">
+                <p class="info-label">Horário de Funcionamento</p>
+                <p class="info-value">
+                    Seg — Sex: 09h às 18h<br>
+                    Sábado: 09h às 13h<br>
+                    Domingo: Fechado
+                </p>
+            </div>
+            <div class="info-block">
+                <p class="info-label">Contato</p>
+                <p class="info-value">(16) 98212-6529</p>
+            </div>
+            <a href="https://wa.me/5516982126529" class="btn-whatsapp" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Chamar no WhatsApp
+            </a>
+        </div>
+        <div class="loc-map">
+            <iframe
+                src="https://www.google.com/maps?q=Av.%20Regit%20Arab%2C%20705%20-%20Cidade%20Aracy%2C%20S%C3%A3o%20Carlos%20-%20SP%2C%2013573-050&output=embed"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Localização Drip Conceito">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">DRIP <span>CONCEITO</span></div>
+                <p>Streetwear autêntico em São Carlos. Preto no branco, conceito nas ruas — pra quem vive o estilo de verdade.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn" title="Instagram">IG</a>
+                    <a href="#" class="social-btn" title="TikTok">TK</a>
+                    <a href="https://wa.me/5516982126529" class="social-btn" title="WhatsApp" target="_blank">WP</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Categorias</h5>
+                <ul>
+                    <li><a href="#colecao">Hoodies</a></li>
+                    <li><a href="#colecao">Camisetas</a></li>
+                    <li><a href="#colecao">Calças</a></li>
+                    <li><a href="#colecao">Jaquetas</a></li>
+                    <li><a href="#colecao">Acessórios</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Informações</h5>
+                <ul>
+                    <li><a href="#sobre">Sobre Nós</a></li>
+                    <li><a href="#localizacao">Nossa Loja</a></li>
+                    <li><a href="#localizacao">Horários</a></li>
+                    <li><a href="tel:5516982126529">Telefone</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Contato</h5>
+                <ul>
+                    <li><a href="https://wa.me/5516982126529" target="_blank">(16) 98212-6529</a></li>
+                    <li><a href="https://wa.me/5516982126529" target="_blank">WhatsApp</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">TikTok</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Drip Conceito. Todos os direitos reservados.</p>
+            <p>São Carlos, SP — Streetwear Autêntico</p>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP FLOAT -->
+    <a href="https://wa.me/5516982126529" class="wpp-float" target="_blank" title="Falar no WhatsApp">
+        <svg viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <script>
+        // ============================================================
+        //  CONFIG — mexa só aqui se mudar o WhatsApp da loja
+        // ============================================================
+        const WHATSAPP = '5516982126529';  // DDI + DDD + número (só dígitos)
+
+        function pedirProduto(botao) {
+            const card = botao.closest('.product-card');
+            const nome  = card.querySelector('.p-name')?.textContent.trim()  || 'um produto';
+            const marca = card.querySelector('.p-brand')?.textContent.trim() || '';
+            const preco = card.querySelector('.p-price')?.textContent.trim() || '';
+            let msg = `Olá, Drip Conceito! 👋\n\n`;
+            msg += `Tenho interesse neste produto:\n\n`;
+            msg += `🛍️ *${nome}*\n`;
+            if (marca) msg += `🏷️ ${marca}\n`;
+            if (preco) msg += `💰 Preço: ${preco}\n`;
+            msg += `\nEle está disponível? Quais formas de pagamento?`;
+            const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+            window.open(link, '_blank');
+        }
+
+        // ===== INTRO =====
+        (function () {
+            const intro = document.getElementById('intro');
+            function endIntro() {
+                if (intro.classList.contains('done')) return;
+                intro.classList.add('done');
+                document.body.classList.remove('intro-lock');
+                setTimeout(() => intro.remove(), 900);
+            }
+            setTimeout(endIntro, 3400);
+            intro.addEventListener('click', endIntro);
+        })();
+
+        // ===== HERO SPOTLIGHT REVEAL (efeito do prompt-4 adaptado) =====
+        (function () {
+            const hero = document.getElementById('home');
+            const reveal = document.getElementById('heroReveal');
+            if (!hero || !reveal) return;
+            const R = 220;
+            let mx = -999, my = -999, sx = -999, sy = -999, raf = null;
+
+            function buildMask(x, y) {
+                const grad = `radial-gradient(circle ${R}px at ${x}px ${y}px, #000 0%, rgba(0,0,0,0.95) 40%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.12) 88%, transparent 100%)`;
+                reveal.style.webkitMaskImage = grad;
+                reveal.style.maskImage = grad;
+            }
+            function loop() {
+                sx += (mx - sx) * 0.12;
+                sy += (my - sy) * 0.12;
+                buildMask(sx, sy);
+                raf = requestAnimationFrame(loop);
+            }
+            hero.addEventListener('mousemove', (e) => {
+                const rect = hero.getBoundingClientRect();
+                mx = e.clientX - rect.left;
+                my = e.clientY - rect.top;
+            });
+            hero.addEventListener('mouseleave', () => { mx = -999; my = -999; });
+
+            // suporte a toque (mobile = desktop)
+            function touchMove(e) {
+                const t = e.touches && e.touches[0];
+                if (!t) return;
+                const rect = hero.getBoundingClientRect();
+                mx = t.clientX - rect.left;
+                my = t.clientY - rect.top;
+            }
+            hero.addEventListener('touchstart', touchMove, { passive: true });
+            hero.addEventListener('touchmove', touchMove, { passive: true });
+
+            // auto-anima o foco em telas touch onde nao houve interacao ainda
+            const isTouch = window.matchMedia('(hover: none)').matches;
+            if (isTouch) {
+                const hint = document.getElementById('heroHint');
+                if (hint) hint.textContent = 'Toque e arraste sobre a imagem';
+                const rect = hero.getBoundingClientRect();
+                let auto = true, ang = 0;
+                sx = rect.width / 2; sy = rect.height * 0.42;
+                mx = sx; my = sy;
+                const autoLoop = () => {
+                    if (!auto) return;
+                    ang += 0.018;
+                    mx = rect.width / 2 + Math.cos(ang) * rect.width * 0.22;
+                    my = rect.height * 0.42 + Math.sin(ang * 1.3) * rect.height * 0.12;
+                    requestAnimationFrame(autoLoop);
+                };
+                requestAnimationFrame(autoLoop);
+                hero.addEventListener('touchstart', () => { auto = false; }, { once: true });
+            }
+
+            raf = requestAnimationFrame(loop);
+        })();
+
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        }, { passive: true });
+
+        // ===== PARALLAX HERO =====
+        const heroBg = document.getElementById('heroBg');
+        const heroReveal = document.getElementById('heroReveal');
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            if (scrolled < window.innerHeight) {
+                const t = `scale(1.05) translateY(${scrolled * 0.2}px)`;
+                heroBg.style.transform = t;
+                if (heroReveal) heroReveal.style.transform = t;
+            }
+        }, { passive: true });
+
+        // ===== MOBILE NAV =====
+        const menuToggle = document.getElementById('menuToggle');
+        const menuIcon = document.getElementById('menuIcon');
+        const mobileNav = document.getElementById('mobileNav');
+        let mobileOpen = false;
+        menuToggle.addEventListener('click', () => {
+            mobileOpen = !mobileOpen;
+            mobileNav.classList.toggle('open', mobileOpen);
+            menuIcon.textContent = mobileOpen ? '✕' : '☰';
+        });
+        function closeMobileNav() {
+            mobileOpen = false;
+            mobileNav.classList.remove('open');
+            menuIcon.textContent = '☰';
+        }
+
+        // ===== SCROLL REVEAL =====
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ============================================================
+        //  CATÁLOGO — adicione quantas peças quiser aqui
+        //  cat: 'top' (camisas/jaquetas/moletom) | 'bottom' (calças/shorts) | 'acc' (acessórios)
+        //  Para nova peça é só copiar uma linha { ... } e trocar os dados.
+        // ============================================================
+        const CATALOGO = [
+            { nome: 'Hoodie Oversized Black', cat: 'top', preco: 'R$ 229,90', badge: 'Novo', img: 'prod-hoodie.jpg' },
+            { nome: 'Hoodie Oversized White', cat: 'top', preco: 'R$ 239,90', badge: 'Novo', img: 'prod-hoodie-white.jpg' },
+            { nome: 'Graphic Tee Black', cat: 'top', preco: 'R$ 119,90', badge: 'Drop', img: 'prod-tee.jpg' },
+            { nome: 'Graphic Tee White', cat: 'top', preco: 'R$ 119,90', badge: 'Drop', img: 'prod-tee-white.jpg' },
+            { nome: 'Oversized Tee Premium', cat: 'top', preco: 'R$ 149,90', badge: 'Premium', img: 'prod-tee2.jpg' },
+            { nome: 'Off Grid Tee White', cat: 'top', preco: 'R$ 139,90', badge: 'Hype', img: 'prod-tee-white2.jpg' },
+            { nome: 'Hip Hop Tee Black', cat: 'top', preco: 'R$ 129,90', badge: 'Hype', img: 'prod-tee3.jpg' },
+            { nome: 'Crewneck Conceito', cat: 'top', preco: 'R$ 199,90', badge: 'Novo', img: 'prod-crew.jpg' },
+            { nome: 'Moletom Heavy Black', cat: 'top', preco: 'R$ 209,90', badge: '', img: 'prod-hoodie2.jpg' },
+            { nome: 'Techwear Jacket', cat: 'top', preco: 'R$ 349,90', badge: 'Premium', img: 'prod-jacket.jpg' },
+            { nome: 'Bomber Jacket Black', cat: 'top', preco: 'R$ 299,90', badge: 'Bomber', img: 'prod-bomber.jpg' },
+            { nome: 'Jaqueta Jeans Black', cat: 'top', preco: 'R$ 329,90', badge: 'Premium', img: 'prod-denim.jpg' },
+            { nome: 'Cargo Pants Black', cat: 'bottom', preco: 'R$ 199,90', badge: 'Hot', img: 'prod-cargo.jpg' },
+            { nome: 'Cargo Slim Fit', cat: 'bottom', preco: 'R$ 209,90', badge: 'Novo', img: 'prod-cargo2.png' },
+            { nome: 'Jogger Conceito', cat: 'bottom', preco: 'R$ 179,90', badge: '', img: 'prod-joggers.jpg' },
+            { nome: 'Sweatpants Black', cat: 'bottom', preco: 'R$ 169,90', badge: 'Hot', img: 'prod-sweatpants.jpg' },
+            { nome: 'Shorts Conceito White', cat: 'bottom', preco: 'R$ 129,90', badge: 'Drop', img: 'prod-shorts.jpg' },
+            { nome: 'Touca Conceito Black', cat: 'acc', preco: 'R$ 79,90', badge: 'Acessório', img: 'prod-beanie.jpg' },
+            { nome: 'Touca Matte Black', cat: 'acc', preco: 'R$ 84,90', badge: 'Acessório', img: 'prod-beanie2.jpg' },
+            { nome: 'Touca Bordada', cat: 'acc', preco: 'R$ 89,90', badge: 'Novo', img: 'prod-beanie3.jpg' },
+        ];
+
+        const PER_PAGE = 8;          // quantas peças mostra por vez
+        let filtroAtual = 'all';
+        let buscaAtual = '';
+        let visiveis = PER_PAGE;
+
+        const gridEl = document.getElementById('productsGrid');
+        const countEl = document.getElementById('gridCount');
+        const loadMoreWrap = document.getElementById('loadMoreWrap');
+
+        function getFiltrados() {
+            return CATALOGO.filter(p => {
+                const okCat = filtroAtual === 'all' || p.cat === filtroAtual;
+                const okBusca = !buscaAtual || p.nome.toLowerCase().includes(buscaAtual.toLowerCase());
+                return okCat && okBusca;
+            });
+        }
+
+        function renderGrid() {
+            const lista = getFiltrados();
+            const mostrar = lista.slice(0, visiveis);
+            gridEl.innerHTML = '';
+
+            if (lista.length === 0) {
+                gridEl.innerHTML = '<div class="no-results">Nenhuma peça encontrada. Tenta outra busca.</div>';
+                countEl.textContent = '0 peças';
+                loadMoreWrap.style.display = 'none';
+                return;
+            }
+
+            mostrar.forEach((p, i) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.innerHTML = `
+                    <div class="p-img-wrap">
+                        ${p.badge ? `<span class="p-badge">${p.badge}</span>` : ''}
+                        <img src="assets/imagem/${p.img}" alt="${p.nome}" loading="lazy">
+                        <div class="p-overlay">
+                            <button type="button" class="p-overlay-btn" onclick="pedirProduto(this)">Pedir via WhatsApp</button>
+                        </div>
+                    </div>
+                    <div class="p-info">
+                        <div>
+                            <p class="p-brand">Drip Conceito</p>
+                            <h3 class="p-name">${p.nome}</h3>
+                        </div>
+                        <div class="p-footer">
+                            <span class="p-price">${p.preco}</span>
+                            <button type="button" class="p-link" onclick="pedirProduto(this)">Comprar</button>
+                        </div>
+                    </div>`;
+                gridEl.appendChild(card);
+                setTimeout(() => {
+                    card.style.transition = `opacity 0.45s ease ${i * 0.04}s, transform 0.45s ease ${i * 0.04}s`;
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 10);
+            });
+
+            countEl.textContent = `Mostrando ${mostrar.length} de ${lista.length} peças`;
+            loadMoreWrap.style.display = (visiveis < lista.length) ? 'block' : 'none';
+        }
+
+        function filterProducts(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filtroAtual = category;
+            visiveis = PER_PAGE;
+            renderGrid();
+        }
+
+        function searchProducts(valor) {
+            buscaAtual = valor.trim();
+            visiveis = PER_PAGE;
+            renderGrid();
+        }
+
+        function loadMore() {
+            visiveis += PER_PAGE;
+            renderGrid();
+        }
+
+        renderGrid();
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
